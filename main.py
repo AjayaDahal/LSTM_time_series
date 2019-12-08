@@ -14,6 +14,7 @@ from tensorflow.keras.layers import Dropout
 from sklearn.preprocessing import MinMaxScaler
 import math
 
+
 np.random.seed(7)
 fileName = "WiFiData1Time"
 sampleSize = 400
@@ -65,12 +66,9 @@ model.summary()
 
 history_train = model.fit(x_train, y_train, epochs=300, verbose=2)
 
-results_train = model.predict(x_train, y_train)
+results_train = model.predict(x_train)
 results_test = model.predict(x_test)
 
-
-print(results_train)
-print(y_train)
 
 plt.plot(y_train, color="r", label='train')
 plt.plot(results_train, color="g", label='results')
@@ -82,8 +80,15 @@ plt.show()
 plt.plot(history_train.history['loss'])
 plt.show()
 
-results_train = scaler.inverse_transform(results_train)
-results_test = scaler.inverse_transform([results_test])
+#results_train = scaler.inverse_transform(results_train.reshape(x_train.shape[0], 1, x_train.shape[1]))
+#results_test = scaler.inverse_transform(results_test.reshape(x_test.shape[0], 1, x_test.shape[1]))
+x_train = np.ones((np.shape(x_train)[0], xSize))
+#x_test = np.ones((np.shape(x_test[0], xSize)))
+#y_train = np.ones((np.shape(y_train)[0], xSize))
+#y_test = np.ones((np.shape(x_test[0], xSize)))
+
+x_train = scaler.inverse_transform(x_train)
+x_test = scaler.inverse_transform(x_test)
 y_train = scaler.inverse_transform(y_train)
 y_test = scaler.inverse_transform(y_test)
 
